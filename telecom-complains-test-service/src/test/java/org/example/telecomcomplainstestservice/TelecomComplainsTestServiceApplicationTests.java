@@ -1,10 +1,10 @@
-package org.example.telecomconfigserver;
+package org.example.telecomcomplainstestservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TelecomConfigServerApplicationTests {
+class TelecomComplainsTestServiceApplicationTests {
 
     @Test
     void contextLoads() {

@@ -7,6 +7,7 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>3.5.11</version>
+    <relativePath/>
   </parent>
 
   <groupId>org.springframework.samples</groupId>
@@ -18,11 +19,16 @@
   <modules>
 
     <module>telecom-complains-gateway</module>
+    <module>telecom-complains-discovery-server</module>
+    <module>telecom-complains-config-server</module>
+    <module>telecom-complains-test-service</module>
+
+
   </modules>
 
   <properties>
     <java.version>17</java.version>
-    <spring-cloud.version>2024.0.3</spring-cloud.version>
+    <spring-cloud.version>2025.0.1</spring-cloud.version>
   </properties>
 
   <dependencyManagement>
