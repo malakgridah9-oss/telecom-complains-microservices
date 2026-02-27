@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/telecom-complains-discovery-server/pom.xml" />
         <option value="$PROJECT_DIR$/telecom-complains-config-server/pom.xml" />
         <option value="$PROJECT_DIR$/telecom-complains-test-service/pom.xml" />
+        <option value="$PROJECT_DIR$/telecom-complains-complaint-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
