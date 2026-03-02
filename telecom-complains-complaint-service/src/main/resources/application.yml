@@ -13,7 +13,7 @@ spring:
   application:
     name: complaint-service
   datasource:
-    url: jdbc:mysql://localhost:3306/telecom_complaints
+    url: jdbc:mysql://localhost:3306/telecom_ticketing
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
