@@ -1,0 +1,49 @@
+package org.example.telecomcomplainscontractservice.entity;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+
+import java.time.Instant;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "ticket", schema = "telecom_ticketing")
+public class Ticket {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ticket_id", nullable = false)
+    private Integer id;
+
+    @Column(name = "customer_id")
+    private Integer customerId;
+
+    @Column(name = "contract_id")
+    private Integer contractId;
+
+    @Column(name = "contract_service_id")
+    private Integer contractServiceId;
+
+    @jakarta.validation.constraints.Size(max = 50)
+    @Column(name = "category", length = 50)
+    private String category;
+
+    @Lob
+    @Column(name = "description")
+    private String description;
+
+    @jakarta.validation.constraints.Size(max = 20)
+    @Column(name = "status", length = 20)
+    private String status;
+
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(name = "created_at")
+    private Instant createdAt;
+
+    @Column(name = "assigned_agent_id")
+    private Integer assignedAgentId;
+
+
+}

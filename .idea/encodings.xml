@@ -7,6 +7,7 @@
     <file url="file://$PROJECT_DIR$/telecom-complains-complaint-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telecom-complains-config-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telecom-complains-config-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/telecom-complains-contract-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telecom-complains-discovery-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telecom-complains-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telecom-complains-test-service/src/main/java" charset="UTF-8" />

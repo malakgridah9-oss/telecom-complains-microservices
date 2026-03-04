@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JpaBuddyIdeaProjectConfig" newRepositoryParent="org.springframework.data.jpa.repository.JpaRepository">
-    <option name="reLastEntityCreationPackage" value="telecom-complains-complaint-service/src/main/java/org/example/telecomcomplainscomplaintservice/entity" />
+    <option name="reLastEntityCreationPackage" value="telecom-complains-contract-service/src/main/java/org/example/telecomcomplainscontractservice/entity" />
     <option name="reverseEngineeringLastDbConnectionId" value="f053b273-204a-4e86-9d3d-6aadb2c5441a" />
   </component>
 </project>
