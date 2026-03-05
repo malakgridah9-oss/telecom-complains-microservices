@@ -3,13 +3,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.samples</groupId>   <!-- ← était org.example -->
-        <artifactId>telecom-complains-microservices</artifactId>
-        <version>1.0.0</version>                         <!-- ← était 1.0-SNAPSHOT -->
-        <relativePath>../pom.xml</relativePath>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.11</version>
+        <relativePath/>
     </parent>
 
-    <artifactId>telecom-complains-customer-service</artifactId>
+    <artifactId>telecom-complains-microservices</artifactId>
+    <name>telecom-complains-microservices</name>
+    <description>telecom-complains-microservices</description>
     <version>1.0.0</version>                             <!-- ← était 1.0-SNAPSHOT -->
 
     <dependencies>

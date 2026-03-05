@@ -13,10 +13,16 @@
         <option value="$PROJECT_DIR$/telecom-complains-test-service/pom.xml" />
         <option value="$PROJECT_DIR$/telecom-complains-complaint-service/pom.xml" />
         <option value="$PROJECT_DIR$/telecom-complains-contract-service/pom.xml" />
+        <option value="$PROJECT_DIR$/telecom-complains-auth-service/pom.xml" />
+        <option value="$PROJECT_DIR$/demo2/pom.xml" />
+        <option value="$PROJECT_DIR$/telecom-complains-authent-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/demo/pom.xml" />
+        <option value="$PROJECT_DIR$/demo2/pom.xml" />
+        <option value="$PROJECT_DIR$/telecom-complains-auth-service/pom.xml" />
         <option value="$PROJECT_DIR$/telecom-config-server/pom.xml" />
       </set>
     </option>

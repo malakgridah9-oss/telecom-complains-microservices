@@ -4,14 +4,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.springframework.samples</groupId>
-        <artifactId>telecom-complains-microservices</artifactId>
-        <version>1.0.0</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.11</version>
+        <relativePath/>
     </parent>
 
     <artifactId>telecom-complains-gateway</artifactId>
     <name>telecom-complains-gateway</name>
     <description>telecom-complains-gateway</description>
+    <version>1.0.0</version>
     <url/>
     <licenses>
         <license/>
