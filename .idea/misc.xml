@@ -23,6 +23,7 @@
         <option value="$PROJECT_DIR$/demo/pom.xml" />
         <option value="$PROJECT_DIR$/demo2/pom.xml" />
         <option value="$PROJECT_DIR$/telecom-complains-auth-service/pom.xml" />
+        <option value="$PROJECT_DIR$/telecom-complains-test-service/pom.xml" />
         <option value="$PROJECT_DIR$/telecom-config-server/pom.xml" />
       </set>
     </option>
