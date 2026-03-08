@@ -30,6 +30,7 @@ public class AuthService {
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setCustomerId(request.getCustomerId());
 
         if (request.getRole() != null && !request.getRole().isEmpty()) {
             user.setRole(User.Role.valueOf(
@@ -45,7 +46,9 @@ public class AuthService {
                 token,
                 user.getEmail(),
                 user.getRole().name(),
-                user.getFullName());
+                user.getFullName(),
+                user.getCustomerId());
+
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -65,6 +68,7 @@ public class AuthService {
                 token,
                 user.getEmail(),
                 user.getRole().name(),
-                user.getFullName());
+                user.getFullName(),
+                user.getCustomerId());
     }
 }

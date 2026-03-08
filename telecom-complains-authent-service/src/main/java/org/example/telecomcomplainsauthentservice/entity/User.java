@@ -25,6 +25,8 @@ public class User {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role = Role.CLIENT;
+    @Column(name = "customer_id")
+    private Integer customerId;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
