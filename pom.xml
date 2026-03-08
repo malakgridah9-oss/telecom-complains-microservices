@@ -17,6 +17,7 @@
         <module>telecom-complains-gateway</module>
         <module>telecom-complains-discovery-server</module>
         <module>telecom-complains-customer-service</module>
+        <module>telecom-complains-ticket-service</module>
     </modules>
 
 

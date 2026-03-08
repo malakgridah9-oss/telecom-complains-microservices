@@ -17,6 +17,7 @@
         <option value="$PROJECT_DIR$/demo2/pom.xml" />
         <option value="$PROJECT_DIR$/telecom-complains-authent-service/pom.xml" />
         <option value="$PROJECT_DIR$/telecom-complains-customer-service/pom.xml" />
+        <option value="$PROJECT_DIR$/telecom-complains-ticket-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
