@@ -1,0 +1,76 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    gateway:
+      routes:
+        - id: authent-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/auth/**
+
+        - id: user-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/users/**
+
+        - id: ticket-service
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/tickets/**
+
+        - id: contract-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/contracts/**
+
+        - id: contract-service-services
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/services/**
+
+        - id: customer-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/customers/**
+
+        - id: customer-service-accounts
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/accounts/**
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+jwt:
+  secret: telecom-secret-key-2024-very-long-secret-key-for-security
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        #http://localhost:8080/actuator/health

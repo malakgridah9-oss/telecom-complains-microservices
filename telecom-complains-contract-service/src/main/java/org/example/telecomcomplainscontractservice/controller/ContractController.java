@@ -1,6 +1,7 @@
 package org.example.telecomcomplainscontractservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.telecomcomplainscontractservice.dto.ContractDetailResponse;
 import org.example.telecomcomplainscontractservice.entity.Contract;
 import org.example.telecomcomplainscontractservice.service.ContractServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -21,28 +22,36 @@ public class ContractController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Contract> getContractById(@PathVariable Integer id) {
-        return ResponseEntity.ok(contractService.getContractById(id));
+    public ResponseEntity<ContractDetailResponse> getContractById(
+            @PathVariable Integer id) {
+        return ResponseEntity.ok(contractService.getContractDetail(id));
     }
 
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<Contract>> getContractsByCustomer(@PathVariable Integer customerId) {
-        return ResponseEntity.ok(contractService.getContractsByCustomer(customerId));
+    public ResponseEntity<List<ContractDetailResponse>> getContractsByCustomer(
+            @PathVariable Integer customerId) {
+        return ResponseEntity.ok(
+                contractService.getContractsByCustomer(customerId));
     }
 
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<Contract>> getContractsByStatus(@PathVariable String status) {
-        return ResponseEntity.ok(contractService.getContractsByStatus(status));
+    public ResponseEntity<List<Contract>> getContractsByStatus(
+            @PathVariable String status) {
+        return ResponseEntity.ok(
+                contractService.getContractsByStatus(status));
     }
 
     @PostMapping
-    public ResponseEntity<Contract> createContract(@RequestBody Contract contract) {
+    public ResponseEntity<Contract> createContract(
+            @RequestBody Contract contract) {
+        contract.setContractId(null);
         return ResponseEntity.ok(contractService.createContract(contract));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Contract> updateContract(@PathVariable Integer id,
-                                                   @RequestBody Contract contract) {
+    public ResponseEntity<Contract> updateContract(
+            @PathVariable Integer id,
+            @RequestBody Contract contract) {
         return ResponseEntity.ok(contractService.updateContract(id, contract));
     }
 

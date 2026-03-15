@@ -1,61 +1,90 @@
 package org.example.ticketservice.controller;
-import jakarta.validation.Valid;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.example.ticketservice.dto.*;
-import org.example.ticketservice.entity.*;
-import org.example.ticketservice.service.TicketManager;
-import org.springframework.http.*;
+import org.example.ticketservice.service.TicketService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/tickets")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
+@SecurityRequirement(name = "bearerAuth")
 public class TicketController {
-    private final TicketManager ticketManager;
+
+    private final TicketService ticketService;
 
     @PostMapping
-    public ResponseEntity<TicketResponse> create(@Valid @RequestBody TicketRequest req) {
-        return new ResponseEntity<>(ticketManager.create(req), HttpStatus.CREATED);
+    public ResponseEntity<TicketResponse> createTicket(
+            @RequestBody TicketRequest request) {
+        return ResponseEntity.ok(
+                ticketService.createTicket(request));
     }
+
     @GetMapping
-    public ResponseEntity<List<TicketResponse>> getAll() { return ResponseEntity.ok(ticketManager.getAll()); }
+    public ResponseEntity<List<TicketResponse>> getAllTickets() {
+        return ResponseEntity.ok(ticketService.getAllTickets());
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<TicketResponse> getById(@PathVariable Long id) { return ResponseEntity.ok(ticketManager.getById(id)); }
-    @PutMapping("/{id}")
-    public ResponseEntity<TicketResponse> update(@PathVariable Long id, @Valid @RequestBody TicketRequest req) {
-        return ResponseEntity.ok(ticketManager.update(id, req));
+    public ResponseEntity<TicketResponse> getTicketById(
+            @PathVariable Integer id) {
+        return ResponseEntity.ok(ticketService.getTicketById(id));
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
-        ticketManager.delete(id); return ResponseEntity.ok("Ticket deleted: " + id);
-    }
+
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<TicketResponse>> getByCustomer(@PathVariable Long customerId) {
-        return ResponseEntity.ok(ticketManager.getByCustomerId(customerId));
+    public ResponseEntity<List<TicketResponse>> getByCustomer(
+            @PathVariable Integer customerId) {
+        return ResponseEntity.ok(
+                ticketService.getTicketsByCustomer(customerId));
     }
+
+    @GetMapping("/agent/{agentId}")
+    public ResponseEntity<List<TicketResponse>> getByAgent(
+            @PathVariable Integer agentId) {
+        return ResponseEntity.ok(
+                ticketService.getTicketsByAgent(agentId));
+    }
+
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<TicketResponse>> getByStatus(@PathVariable TicketStatus status) {
-        return ResponseEntity.ok(ticketManager.getByStatus(status));
+    public ResponseEntity<List<TicketResponse>> getByStatus(
+            @PathVariable String status) {
+        return ResponseEntity.ok(
+                ticketService.getTicketsByStatus(status));
     }
-    @GetMapping("/priority/{priority}")
-    public ResponseEntity<List<TicketResponse>> getByPriority(@PathVariable TicketPriority priority) {
-        return ResponseEntity.ok(ticketManager.getByPriority(priority));
+
+    @PutMapping("/{ticketId}/assign/{agentId}")
+    public ResponseEntity<TicketResponse> assignAgent(
+            @PathVariable Integer ticketId,
+            @PathVariable Integer agentId) {
+        return ResponseEntity.ok(
+                ticketService.assignAgent(ticketId, agentId));
     }
-    @GetMapping("/search")
-    public ResponseEntity<List<TicketResponse>> search(@RequestParam String keyword) {
-        return ResponseEntity.ok(ticketManager.search(keyword));
+
+    @PutMapping("/{ticketId}/status")
+    public ResponseEntity<TicketResponse> updateStatus(
+            @PathVariable Integer ticketId,
+            @RequestParam String newStatus,
+            @RequestParam(required = false) Integer agentId,
+            @RequestParam(required = false) String comment) {
+        return ResponseEntity.ok(ticketService.updateStatus(
+                ticketId, newStatus, agentId, comment));
     }
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<TicketResponse> updateStatus(@PathVariable Long id, @Valid @RequestBody UpdateStatusRequest req) {
-        return ResponseEntity.ok(ticketManager.updateStatus(id, req));
+
+    @GetMapping("/{ticketId}/history")
+    public ResponseEntity<List<TicketHistoryResponse>> getHistory(
+            @PathVariable Integer ticketId) {
+        return ResponseEntity.ok(
+                ticketService.getTicketHistory(ticketId));
     }
-    @PatchMapping("/{id}/assign/{agentId}")
-    public ResponseEntity<TicketResponse> assignAgent(@PathVariable Long id, @PathVariable Long agentId) {
-        return ResponseEntity.ok(ticketManager.assignAgent(id, agentId));
-    }
-    @GetMapping("/{id}/history")
-    public ResponseEntity<List<TicketHistoryResponse>> getHistory(@PathVariable Long id) {
-        return ResponseEntity.ok(ticketManager.getHistory(id));
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTicket(
+            @PathVariable Integer id) {
+        ticketService.deleteTicket(id);
+        return ResponseEntity.noContent().build();
     }
 }

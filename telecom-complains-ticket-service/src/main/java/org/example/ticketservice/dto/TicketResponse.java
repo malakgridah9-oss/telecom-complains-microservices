@@ -1,22 +1,20 @@
 package org.example.ticketservice.dto;
+
 import lombok.Data;
-import org.example.ticketservice.entity.TicketPriority;
-import org.example.ticketservice.entity.TicketStatus;
-import java.time.LocalDateTime;
+
+import java.time.Instant;
+
+
 @Data
 public class TicketResponse {
-    private Long id;
+    private Integer ticketId;
+    private Integer customerId;
+    private Integer contractId;
+    private Integer contractServiceId;
     private String title;
-    private String description;
-    private TicketStatus status;
-    private TicketPriority priority;
     private String category;
-    private String resolutionNote;
-    private Long customerId;
-    private String customerFullName;
-    private String customerEmail;
-    private Long agentId;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private LocalDateTime resolvedAt;
+    private String description;
+    private String status;
+    private Integer assignedAgentId;
+    private Instant createdAt;
 }

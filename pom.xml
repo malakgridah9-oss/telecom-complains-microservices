@@ -27,12 +27,12 @@
     <packaging>pom</packaging>
 
     <name>telecom-complains-microservices</name>
-    <!-- ← était 1.0-SNAPSHOT -->
+
 
 
 
     <properties>
-        <spring-cloud.version>2025.0.1</spring-cloud.version>
+        <spring-cloud.version>2024.0.1</spring-cloud.version>
     </properties>
 
 

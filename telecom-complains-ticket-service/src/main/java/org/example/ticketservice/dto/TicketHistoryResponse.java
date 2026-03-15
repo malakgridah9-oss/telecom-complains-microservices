@@ -1,14 +1,15 @@
 package org.example.ticketservice.dto;
+
 import lombok.Data;
-import org.example.ticketservice.entity.TicketStatus;
-import java.time.LocalDateTime;
+
+import java.time.Instant;
+
 @Data
 public class TicketHistoryResponse {
-    private Long historyId;
-    private Long ticketId;
-    private TicketStatus oldStatus;
-    private TicketStatus newStatus;
-    private LocalDateTime changedAt;
-    private Long changedByAgentId;
-    private String note;
+    private Integer historyId;
+    private Integer ticketId;
+    private String oldStatus;
+    private String newStatus;
+    private Integer changedByAgentId;
+    private Instant changedAt;
 }
