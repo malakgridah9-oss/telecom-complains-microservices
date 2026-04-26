@@ -2,10 +2,23 @@ package org.example.ticketservice.repository;
 
 import org.example.ticketservice.entity.TicketHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 public interface TicketHistoryRepository extends JpaRepository<TicketHistory, Integer> {
-    List<TicketHistory> findByTicketIdOrderByChangedAtDesc(
-            Integer ticketId);
+
+    List<TicketHistory> findByTicketIdOrderByChangedAtDesc(Integer ticketId);
+
+    // ⭐ AJOUTEZ CES MÉTHODES ⭐
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM TicketHistory th WHERE th.ticketId = :ticketId")
+    void deleteByTicketId(@Param("ticketId") Integer ticketId);
+
+    long countByTicketId(Integer ticketId);
 }

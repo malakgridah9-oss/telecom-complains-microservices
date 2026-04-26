@@ -40,4 +40,7 @@ public class Contract {
     @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude @EqualsAndHashCode.Exclude
     private List<ContractService> contractServices;
+    // Assure-toi que ce champ existe
+    @Column(name = "msisdn")
+    private String msisdn;
 }

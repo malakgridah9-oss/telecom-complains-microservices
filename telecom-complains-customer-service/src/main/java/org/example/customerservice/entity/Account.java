@@ -1,33 +1,43 @@
 package org.example.customerservice.entity;
+
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "account")
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Account {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "account_id")
+    private Long accountId;
 
-    @Column(nullable = false, unique = true)
-    private String username;
+    @Column(name = "customer_id")
+    private Long customerId;
 
-    @Column(nullable = false)
-    private String password;
+    @Column(name = "account_code")
+    private String accountCode;
 
-    @Column(name = "is_active")
-    private Boolean isActive = true;
+    @Column(name = "account_type")
+    private String accountType;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
+    private BigDecimal balance;
+
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    // FK: customer_id => lien vers la table customer
-    @OneToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    @ToString.Exclude @EqualsAndHashCode.Exclude
-    private Customer customer;
+    @Column(name = "is_active")
+    private Boolean isActive;
+
+    private String password;
+
+    private String username;
+
 }

@@ -9,4 +9,8 @@ public class RegisterRequest {
     private String password;
     private String role;
     private Integer customerId;
+    private Integer agentId;
+    private String phone;      // NOUVEAU — obligatoire
+    private String address;
+    private String cin;
 }
