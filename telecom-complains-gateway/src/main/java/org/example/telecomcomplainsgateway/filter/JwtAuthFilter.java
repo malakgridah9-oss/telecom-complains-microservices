@@ -31,15 +31,19 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         String path = request.getURI().getPath();
 
+        // ✅ 1. Allow preflight requests
+        if (request.getMethod().name().equals("OPTIONS")) {
+            return chain.filter(exchange);
+        }
+
+        // ✅ 2. Allow public endpoints
         if (isPublicUrl(path)) {
             return chain.filter(exchange);
         }
 
-        String authHeader = request.getHeaders()
-                .getFirst("Authorization");
+        String authHeader = request.getHeaders().getFirst("Authorization");
 
-        if (authHeader == null
-                || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return unauthorized(exchange);
         }
 

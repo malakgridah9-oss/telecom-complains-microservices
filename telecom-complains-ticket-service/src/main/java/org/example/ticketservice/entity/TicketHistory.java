@@ -35,6 +35,7 @@ public class TicketHistory {
 
     @Column(name = "changed_by_agent_id")
     private Integer changedByAgentId;
-
+    @Column(name = "comment", length = 500)
+    private String comment;
 
 }

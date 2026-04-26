@@ -11,5 +11,6 @@ public class AuthResponse {
     private String role;
     private String fullName;
     private Integer customerId;
-
+    private Integer agentId;
+    private Boolean isApproved;
 }

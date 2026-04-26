@@ -4,66 +4,68 @@ server:
 spring:
   application:
     name: gateway-service
+
   cloud:
     compatibility-verifier:
       enabled: false
+
     gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
       routes:
-        - id: authent-service
-          uri: http://localhost:8084
+        - id: admin-service
+          uri: lb://authent-service
+          predicates:
+            - Path=/api/admin/**
+
+        - id: auth-service
+          uri: lb://authent-service
           predicates:
             - Path=/api/auth/**
 
         - id: user-service
-          uri: http://localhost:8084
+          uri: lb://authent-service
           predicates:
             - Path=/api/users/**
 
         - id: ticket-service
-          uri: http://localhost:8086
+          uri: lb://ticket-service
           predicates:
             - Path=/api/tickets/**
 
         - id: contract-service
-          uri: http://localhost:8082
+          uri: lb://contract-service
           predicates:
             - Path=/api/contracts/**
 
-        - id: contract-service-services
-          uri: http://localhost:8082
+        - id: service-contract
+          uri: lb://contract-service
           predicates:
             - Path=/api/services/**
 
         - id: customer-service
-          uri: http://localhost:8081
+          uri: lb://customer-service
           predicates:
             - Path=/api/customers/**
 
-        - id: customer-service-accounts
-          uri: http://localhost:8081
+        - id: account-service
+          uri: lb://customer-service
           predicates:
             - Path=/api/accounts/**
 
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins:
-              - "http://localhost:4200"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - OPTIONS
-            allowedHeaders: "*"
-            allowCredentials: true
-
 eureka:
   client:
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
   instance:
     prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
 
 jwt:
   secret: telecom-secret-key-2024-very-long-secret-key-for-security
@@ -73,4 +75,7 @@ management:
     web:
       exposure:
         include: "*"
-        #http://localhost:8080/actuator/health
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG

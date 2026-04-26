@@ -10,8 +10,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tickets")
-@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
+@RequiredArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
 public class TicketController {
 
@@ -87,4 +87,6 @@ public class TicketController {
         ticketService.deleteTicket(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }

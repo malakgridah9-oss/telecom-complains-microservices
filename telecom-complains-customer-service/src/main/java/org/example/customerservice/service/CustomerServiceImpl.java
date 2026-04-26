@@ -7,6 +7,8 @@ import org.example.customerservice.exception.*;
 import org.example.customerservice.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +21,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerResponse create(CustomerRequest req) {
-        // Verifie que l'email n'existe pas deja dans la table customer
         if (repo.existsByEmail(req.getEmail()))
             throw new DuplicateResourceException("Email already exists: " + req.getEmail());
 
@@ -28,6 +29,9 @@ public class CustomerServiceImpl implements CustomerService {
                 .email(req.getEmail())
                 .phone(req.getPhone())
                 .address(req.getAddress())
+                .active(true)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build());
         return map(saved);
     }
@@ -47,21 +51,22 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponse update(Long customerId, CustomerRequest req) {
         Customer c = find(customerId);
-        // Si email change -> verifie qu'il n'est pas deja pris
         if (!c.getEmail().equals(req.getEmail()) && repo.existsByEmail(req.getEmail()))
             throw new DuplicateResourceException("Email already exists: " + req.getEmail());
-
-        // Met a jour les colonnes: full_name, email, phone, address
         c.setFullName(req.getFullName());
         c.setEmail(req.getEmail());
         c.setPhone(req.getPhone());
         c.setAddress(req.getAddress());
+        c.setUpdatedAt(LocalDateTime.now());
         return map(repo.save(c));
     }
 
     @Override
     public void delete(Long customerId) {
-        repo.delete(find(customerId));
+        Customer customer = find(customerId);
+        customer.setActive(false);  // ⭐ SOFT DELETE
+        customer.setUpdatedAt(LocalDateTime.now());
+        repo.save(customer);
     }
 
     @Override
@@ -78,26 +83,51 @@ public class CustomerServiceImpl implements CustomerService {
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found with phone: " + phone)));
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    // ⭐ MÉTHODES POUR CONTRATS - IMPLÉMENTATION CORRECTE
+    // ═══════════════════════════════════════════════════════════════
+
     @Override
     @Transactional(readOnly = true)
-    public List<CustomerResponse> search(String keyword) {
-        return repo.searchByKeyword(keyword).stream().map(this::map).collect(Collectors.toList());
+    public List<CustomerResponse> getCustomersWithContracts() {
+        return repo.findCustomersWithContracts().stream()
+                .map(this::map)
+                .collect(Collectors.toList());
     }
 
-    // Cherche en base par customer_id, lance 404 si introuvable
+    @Override
+    @Transactional(readOnly = true)
+    public List<CustomerResponse> getCustomersWithoutContracts() {
+        return repo.findCustomersWithoutContracts().stream()
+                .map(this::map)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean hasContract(Long customerId) {
+        return repo.hasContract(customerId);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // PRIVATE METHODS
+    // ═══════════════════════════════════════════════════════════════
+
     private Customer find(Long id) {
         return repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id: " + id));
     }
 
-    // Entity -> DTO: mappe customer_id, full_name, email, phone, address
     private CustomerResponse map(Customer c) {
         CustomerResponse r = new CustomerResponse();
-        r.setCustomerId(c.getCustomerId());
+        r.setCustomerId(c.getCustomerId());  // ⭐ Utiliser customerId, pas getId()
         r.setFullName(c.getFullName());
         r.setEmail(c.getEmail());
         r.setPhone(c.getPhone());
         r.setAddress(c.getAddress());
+        r.setActive(c.isActive());
+        r.setCreatedAt(c.getCreatedAt());
+        r.setUpdatedAt(c.getUpdatedAt());
         return r;
     }
 }

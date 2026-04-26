@@ -10,11 +10,11 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/telecom_ticketing
     username: root
-    password:
+    password: ""
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
