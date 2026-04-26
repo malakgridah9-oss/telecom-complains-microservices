@@ -1,11 +1,16 @@
 package org.example.customerservice.dto;
+
 import lombok.Data;
+import java.time.LocalDateTime;
 
 @Data
 public class CustomerResponse {
-    private Long customerId;    // customer_id
-    private String fullName;    // full_name
+    private Long customerId;
+    private String fullName;
     private String email;
     private String phone;
     private String address;
+    private boolean active;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

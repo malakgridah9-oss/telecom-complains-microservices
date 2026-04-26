@@ -5,64 +5,83 @@ import lombok.RequiredArgsConstructor;
 import org.example.customerservice.dto.*;
 import org.example.customerservice.service.CustomerService;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/customers")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class CustomerController {
 
     private final CustomerService customerService;
 
-    // POST /api/customers
-    // Body: { "fullName":"Malek Ben Ali", "email":"malek@gmail.com", "phone":"0612345678", "address":"Tunis" }
+    // ─── CRUD EXISTANTS ──────────────────────────────────────────
+
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")  // Seul ADMIN peut créer
     public ResponseEntity<CustomerResponse> create(@Valid @RequestBody CustomerRequest req) {
         return new ResponseEntity<>(customerService.create(req), HttpStatus.CREATED);
     }
 
-    // GET /api/customers  -> liste tous les clients de la table customer
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'AGENT')")  // ADMIN et AGENT peuvent voir
     public ResponseEntity<List<CustomerResponse>> getAll() {
         return ResponseEntity.ok(customerService.getAll());
     }
 
-    // GET /api/customers/1  -> trouve par customer_id
     @GetMapping("/{customerId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'AGENT')")  // ADMIN et AGENT peuvent voir
     public ResponseEntity<CustomerResponse> getById(@PathVariable Long customerId) {
         return ResponseEntity.ok(customerService.getById(customerId));
     }
 
-    // PUT /api/customers/1  -> met a jour full_name, email, phone, address
     @PutMapping("/{customerId}")
+    @PreAuthorize("hasRole('ADMIN')")  // Seul ADMIN peut modifier
     public ResponseEntity<CustomerResponse> update(@PathVariable Long customerId,
-                                                    @Valid @RequestBody CustomerRequest req) {
+                                                   @Valid @RequestBody CustomerRequest req) {
         return ResponseEntity.ok(customerService.update(customerId, req));
     }
 
-    // DELETE /api/customers/1
     @DeleteMapping("/{customerId}")
+    @PreAuthorize("hasRole('ADMIN')")  // Seul ADMIN peut supprimer
     public ResponseEntity<String> delete(@PathVariable Long customerId) {
         customerService.delete(customerId);
         return ResponseEntity.ok("Customer deleted: " + customerId);
     }
 
-    // GET /api/customers/email/malek@gmail.com
     @GetMapping("/email/{email}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'AGENT')")  // ADMIN et AGENT peuvent voir
     public ResponseEntity<CustomerResponse> getByEmail(@PathVariable String email) {
         return ResponseEntity.ok(customerService.getByEmail(email));
     }
 
-    // GET /api/customers/phone/0612345678
     @GetMapping("/phone/{phone}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'AGENT')")  // ADMIN et AGENT peuvent voir
     public ResponseEntity<CustomerResponse> getByPhone(@PathVariable String phone) {
         return ResponseEntity.ok(customerService.getByPhone(phone));
     }
 
-    // GET /api/customers/search?keyword=malek
-    @GetMapping("/search")
-    public ResponseEntity<List<CustomerResponse>> search(@RequestParam String keyword) {
-        return ResponseEntity.ok(customerService.search(keyword));
+    // ═══════════════════════════════════════════════════════════════
+    // ⭐ NOUVEAUX ENDPOINTS POUR LES CLIENTS AVEC CONTRATS
+    // ═══════════════════════════════════════════════════════════════
+
+    @GetMapping("/with-contracts")
+    @PreAuthorize("hasAnyRole('ADMIN', 'AGENT')")
+    public ResponseEntity<List<CustomerResponse>> getCustomersWithContracts() {
+        return ResponseEntity.ok(customerService.getCustomersWithContracts());
+    }
+
+    @GetMapping("/without-contracts")
+    @PreAuthorize("hasAnyRole('ADMIN', 'AGENT')")
+    public ResponseEntity<List<CustomerResponse>> getCustomersWithoutContracts() {
+        return ResponseEntity.ok(customerService.getCustomersWithoutContracts());
+    }
+
+    @GetMapping("/{customerId}/has-contract")
+    @PreAuthorize("hasAnyRole('ADMIN', 'AGENT')")
+    public ResponseEntity<Boolean> hasContract(@PathVariable Long customerId) {
+        return ResponseEntity.ok(customerService.hasContract(customerId));
     }
 }

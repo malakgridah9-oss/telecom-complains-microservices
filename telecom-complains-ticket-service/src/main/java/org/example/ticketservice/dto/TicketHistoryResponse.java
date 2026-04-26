@@ -12,4 +12,5 @@ public class TicketHistoryResponse {
     private String newStatus;
     private Integer changedByAgentId;
     private Instant changedAt;
+    private String comment;
 }

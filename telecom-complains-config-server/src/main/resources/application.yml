@@ -8,10 +8,12 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/malakgridah9-oss/telecom-config-repo
-          default-label: main
+          uri: https://github.com/malakgridah9-oss/telecom-complains-microservices
+          default-label: master
           clone-on-start: true
           force-pull: true
+    compatibility-verifier:
+      enabled: false
 
 eureka:
   client:
@@ -25,3 +27,4 @@ management:
     web:
       exposure:
         include: "*"
+

@@ -1,13 +1,16 @@
-package org.example.ticketservice.entity;
+package org.example.telecomcomplainsauthentservice.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import java.time.LocalDateTime;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "agent")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Agent {
 
     @Id
@@ -18,19 +21,22 @@ public class Agent {
     @Column(name = "full_name")
     private String fullName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "phone")
     private String phone;
 
+    @Column(name = "category")
+    private String category;
+
     @Column(name = "role")
     private String role;
 
-    @Column(name = "category")
-    private String category;  // ✅ DATA|VOICE|SMS|FACTURATION|RESEAU
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
-    @Column(name = "is_deleted")
+    @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;  // ✅ Boolean pas boolean
 
     public boolean isDeleted() {

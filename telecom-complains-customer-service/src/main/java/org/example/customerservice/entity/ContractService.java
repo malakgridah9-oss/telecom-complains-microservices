@@ -22,4 +22,5 @@ public class ContractService {
     @JoinColumn(name = "service_id", nullable = false)
     @ToString.Exclude @EqualsAndHashCode.Exclude
     private TelecomService telecomService;
+
 }

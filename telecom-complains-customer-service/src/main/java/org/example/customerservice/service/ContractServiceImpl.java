@@ -15,15 +15,14 @@ import java.util.stream.Collectors;
 @Transactional
 public class ContractServiceImpl implements ContractService {
 
-    private final ContractRepository  contractRepo;
-    private final CustomerRepository  customerRepo;
+    private final ContractRepository contractRepo;
+    private final CustomerRepository customerRepo;
 
     @Override
     public ContractResponse create(ContractRequest req) {
         if (contractRepo.existsByContractNumber(req.getContractNumber()))
             throw new DuplicateResourceException("Contract number already exists: " + req.getContractNumber());
 
-        // Cherche le customer par customer_id (FK dans la table contract)
         Customer customer = customerRepo.findById(req.getCustomerId())
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found: " + req.getCustomerId()));
 
@@ -37,10 +36,14 @@ public class ContractServiceImpl implements ContractService {
         return map(saved);
     }
 
-    @Override @Transactional(readOnly = true)
-    public ContractResponse getById(Long id) { return map(find(id)); }
+    @Override
+    @Transactional(readOnly = true)
+    public ContractResponse getById(Long id) {
+        return map(find(id));
+    }
 
-    @Override @Transactional(readOnly = true)
+    @Override
+    @Transactional(readOnly = true)
     public List<ContractResponse> getAll() {
         return contractRepo.findAll().stream().map(this::map).collect(Collectors.toList());
     }
@@ -55,11 +58,15 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public void delete(Long id) { contractRepo.delete(find(id)); }
+    public void delete(Long id) {
+        contractRepo.delete(find(id));
+    }
 
-    @Override @Transactional(readOnly = true)
+    @Override
+    @Transactional(readOnly = true)
     public List<ContractResponse> getByCustomerId(Long customerId) {
-        return contractRepo.findByCustomerCustomerId(customerId)
+        // Correction : utiliser findByCustomerId (voir repository)
+        return contractRepo.findByCustomerId(customerId)
                 .stream().map(this::map).collect(Collectors.toList());
     }
 
@@ -72,13 +79,14 @@ public class ContractServiceImpl implements ContractService {
         ContractResponse r = new ContractResponse();
         r.setId(c.getId());
         r.setContractNumber(c.getContractNumber());
+        r.setMsisdn(c.getMsisdn());           // ← AJOUTE si manquant
         r.setStartDate(c.getStartDate());
-        r.setEndDate(c.getEndDate());
+        r.setEndDate(c.getEndDate());         // ← AJOUTE si manquant
         r.setIsActive(c.getIsActive());
         r.setCreatedAt(c.getCreatedAt());
         if (c.getCustomer() != null) {
-            r.setCustomerId(c.getCustomer().getCustomerId());
-            r.setCustomerFullName(c.getCustomer().getFullName());
+            r.setCustomerId(c.getCustomer().getId());
+            r.setCustomerFullName(c.getCustomer().getFullName()); // ← vérifie
         }
         return r;
     }

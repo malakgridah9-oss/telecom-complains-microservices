@@ -20,7 +20,6 @@
         <module>telecom-complains-ticket-service</module>
     </modules>
 
-
     <groupId>com.billcom</groupId>
     <artifactId>telecom-complains-microservices</artifactId>
     <version>1.0.0</version>
@@ -28,13 +27,9 @@
 
     <name>telecom-complains-microservices</name>
 
-
-
-
     <properties>
         <spring-cloud.version>2024.0.1</spring-cloud.version>
     </properties>
-
 
     <dependencyManagement>
         <dependencies>
